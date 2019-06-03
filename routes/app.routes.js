@@ -5,6 +5,7 @@ const manufacturerRoute = require('./manufacturer.route');
 const supplierRoute = require('./supplier.route');
 const assetTypeRoute = require('./asset.type.route');
 const assetsRoute = require('./assets.route');
+const assetGroupRoute = require('./asset.group.route');
 
 module.exports = function (app) {
     app.use('/building', buildingRoute);
@@ -13,6 +14,7 @@ module.exports = function (app) {
     app.use('/manufacturer', manufacturerRoute);
     app.use('/supplier', supplierRoute);
     app.use('/assetType', assetTypeRoute);
+    app.use('/assetGroup', assetGroupRoute);
     app.use('/assets', assetsRoute);
     return app;
 }

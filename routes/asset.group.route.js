@@ -62,7 +62,7 @@ router.put('/:id', asyncMiddleware(async (req, res) => {
     let assetGroup = new AssetGroup();
     let group = await assetGroupQuery.get(id);
     if (group && group.id) {
-        assetGroup.set('name', req.body.name);
+        createGroup(group);
         assetGroup.save().then(group => {
             group ? res.json({ message: 'Asset group updated successfully' }) : res.json({ message: 'Unable to update group' });
         });
