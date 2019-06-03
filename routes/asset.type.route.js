@@ -54,7 +54,11 @@ router.post('/', asyncMiddleware(async (req, res) => {
     let AssetType = Parse.Object.extend('assetType');
     let assetType = new AssetType();
     settingAssetType(assetType, req);
-    assetType.save().then(type => {
+    assetType.save().then(async (type) => {
+        let AssetGroup = Parse.Object.extend('assetGroup')
+        let assetGroupQuery = new Parse.Query(AssetGroup);
+        let assetGroup = await assetGroupQuery.get(req.body.groupName);
+        assetGroup.increment('assetType', 1);
         if (type) res.json({ message: 'Asset type created successfully' });
         else res.json({ message: 'Unable to create Asset type' });
     })
@@ -119,8 +123,13 @@ router.delete('/:id', asyncMiddleware(async (req, res) => {
         let assetTypeQuery = new Parse.Query('assetType');
         let assetType = await assetTypeQuery.get(id);
         if (assetType && assetType.id) {
-            assetType.destroy({});
-            res.json({ result: 'Asset type deleted successfully' });
+            let AssetGroup = Parse.Object.extend('assetGroup')
+            let assetGroupQuery = new Parse.Query(AssetGroup);
+            let assetGroup = await assetGroupQuery.get(assetType.get('groupName').id);
+            assetGroup.increment('assetType', -1);
+            assetType.destroy({}).then((type) => {
+                res.json({ result: 'Asset type deleted successfully' });
+            })
         } else {
             res.json({ message: 'Unable to find Asset type with provided ID' });
         }

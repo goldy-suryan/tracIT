@@ -1,7 +1,7 @@
 let express = require('express');
 let ParseServer = require('parse-server').ParseServer;
 let bodyParser = require('body-parser');
-const error = require('./server/middlewares/error');
+const error = require('./middlewares/error');
 
 // Parse configuration
 var api = new ParseServer({
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
-require('./server/routes/app.routes')(app);
+require('./routes/app.routes')(app);
 
 // Errors
 app.use(error);
