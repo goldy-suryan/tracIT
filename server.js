@@ -7,6 +7,7 @@ const error = require('./middlewares/error');
 var api = new ParseServer({
     databaseURI: 'mongodb://localhost:27017/dev',
     appId: process.env.APP_ID || 'myAppId',
+    cloud: __dirname + "/cloud/main.js",
     masterKey: process.env.MASTER_KEY || "myMasterKey",
     serverURL: process.env.SERVER_URI || 'http://localhost:1337/parse/'
 });
